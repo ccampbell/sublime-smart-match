@@ -1,0 +1,7 @@
+{
+  "url": "https://github.com/ccampbell/sublime-smart-match",
+  "version": "1.0",
+  "description": "Sublime Text 2 package to make parenthesis, bracket, and square bracket completions smarter",
+  "author": "Craig Campbell",
+  "homepage": "https://github.com/ccampbell/sublime-smart-match"
+}
