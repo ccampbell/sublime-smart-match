@@ -10,3 +10,16 @@ This package makes it smarter so it detects matching parenthesis to see if the i
 
 For more information about the issue see the ticket I created at:  
 http://www.sublimetext.com/forum/viewtopic.php?f=3&t=5708
+
+## Installation
+
+This has been submitted to Sublime Package Control.  Until it is added you can use package control ``cmd+shift+p``.  Choose the option ``Package Control: Add Repository`` and type in ``https://github.com/ccampbell/sublime-smart-match``.
+
+After that you can select ``Package Control: Install Package`` and choose ``sublime-smart-match``.
+
+Another option is running the following command (this is the os x version):
+
+```
+cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages
+git clone git@github.com:ccampbell/sublime-smart-match.git SmartMatch
+```
