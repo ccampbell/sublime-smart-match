@@ -4,7 +4,7 @@ Sublime Text 2 by default does not allow you to close parenthesis that are direc
 
 Sometimes this is the desired behavior but let's say you have something like this: ``function1(foo)``.
 
-If you go to wrap it in another function ``function2(function1(foo)`` then insert the cursor after foo to close the parenthesis it will not let you even though that parenthesis should be allowed.
+If you go to wrap it in another function ``function2(function1(foo)`` then insert the cursor after foo but before the ending parenthesis to close the parenthesis it will not let you even though it should be allowed.
 
 This package makes it smarter so it detects matching parenthesis to see if the insertion is allowed.
 
