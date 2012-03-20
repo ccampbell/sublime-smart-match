@@ -60,4 +60,4 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
 
     def replaceRegionWithString(self, edit, region, character):
         self.view.erase(edit, region)
-        self.view.run_command('insert',  {"characters": character})
+        self.view.run_command('insert', {"characters": character})
