@@ -17,12 +17,20 @@ import sublime, sublime_plugin
 
 class SmartMatchCommand(sublime_plugin.TextCommand):
     def run(self, edit, character):
+        new_selections = []
+
         for region in self.view.sel():
             if self.allowReplacement(region, character):
-                self.replaceRegionWithString(edit, region, character)
+                new_selections.append(region)
                 continue
 
-            self.moveCursorForward(edit, region, character)
+            new_selections.append(sublime.Region(region.a, region.a + 1))
+
+        self.view.sel().clear()
+        for sel in new_selections:
+            self.view.sel().add(sel)
+        self.view.run_command('insert',  {"characters": character})
+
 
     def allowReplacement(self, region, character):
         if region.size() > 1:
@@ -53,11 +61,3 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
             return False
 
         return True
-
-    def moveCursorForward(self, edit, region, character):
-        new_region = sublime.Region(region.a, region.a + 1)
-        self.replaceRegionWithString(edit, new_region, character)
-
-    def replaceRegionWithString(self, edit, region, character):
-        self.view.erase(edit, region)
-        self.view.insert(edit, region.begin(), character)
