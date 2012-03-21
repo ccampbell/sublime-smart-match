@@ -21,10 +21,17 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
 
         for region in self.view.sel():
             if self.allowReplacement(region, character):
-                new_selections.append(region)
+                if region.empty():
+                    if region.begin() < self.view.size():
+                        region = sublime.Region(region.begin(), region.begin()+1)
+                    else:
+                        region = sublime.Region(region.begin(), region.begin())
+                    new_selections.append(region)
+                else:
+                    new_selections.append(region)
                 continue
 
-            new_selections.append(sublime.Region(region.a, region.a + 1))
+            new_selections.append(region)
 
         self.view.sel().clear()
         for sel in new_selections:
@@ -42,22 +49,66 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
             '}': '{'
         }
 
+        # line
         line = self.view.line(region)
 
-        full_line_text = self.view.substr(line).strip()
-        text_before_insertion = self.view.substr(sublime.Region(line.a, region.a)).strip()
-        text_after_insertion = self.view.substr(sublime.Region(region.b, line.b)).strip()
-
+        # before
+        text_before_insertion = self.view.substr(sublime.Region(line.begin(), region.begin()))
         open_count_before = text_before_insertion.count(start_char[character])
-
-        if open_count_before == 0:
-            return True
-
         close_count_before = text_before_insertion.count(character)
 
-        close_count = full_line_text.count(character)
-
-        if open_count_before <= close_count and close_count_before != open_count_before and len(text_after_insertion) and text_after_insertion[0] == character:
+        if open_count_before - close_count_before  <= 0:
             return False
 
-        return True
+        # after
+        text_after_insertion = ''
+        position = region.end()-1
+        while True:
+            position += 1
+            if position < self.view.size() and position < line.end():
+                text = self.view.substr(sublime.Region(position, position+1))
+                if text != character:
+                    break
+                else:
+                    text_after_insertion += text
+            else:
+                break;
+        if text_after_insertion == '':
+            return False
+        close_count_after = text_after_insertion.count(character)
+
+
+        diff = (open_count_before - close_count_before) - close_count_after
+        if diff >= 0 and diff != 1:
+            return True
+        else:
+            return False
+
+# TESTS -  put the cursor before "|" and type ")" character to test this package.
+
+# function(|
+# function(|)
+# function(function(function(|))
+# function(function(function(|)))
+# function(function(function())|)
+# function(function(function())|
+
+# function(| ))))
+# function(| ((((
+
+# function(| )
+# function(| (
+
+# class().function(|)
+# class(|).function()
+# class((|).function()
+# class(()).function(|)
+# class((function(|))).function()
+# class((function(|)).function()
+# function().function(|)
+
+# (((( |
+# )))) |
+
+# ( |
+# ) |
