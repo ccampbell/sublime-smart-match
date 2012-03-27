@@ -79,7 +79,7 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
 
 
         diff = (open_count_before - close_count_before) - close_count_after
-        if diff >= 0 and diff != 1:
+        if diff == 0:
             return True
         else:
             return False
@@ -112,3 +112,5 @@ class SmartMatchCommand(sublime_plugin.TextCommand):
 
 # ( |
 # ) |
+
+# $(".meter-value").css("width", '.(round(($l/100)*$a|).'+"%");
