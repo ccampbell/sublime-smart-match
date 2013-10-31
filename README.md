@@ -1,6 +1,6 @@
-# Sublime Text 2 Smart Match
+# Sublime Text Smart Match
 
-Sublime Text 2 by default does not allow you to close parenthesis that are directly preceding other parenthesis.  This is the same behavior with brackets and square brackets.
+Sublime Text by default does not allow you to close parenthesis that are directly preceding other parenthesis.  This is the same behavior with brackets and square brackets.
 
 Sometimes this is the desired behavior but let's say you have something like this: ``function1(foo)``.
 
